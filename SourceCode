@@ -1,0 +1,289 @@
+# cardoc - ai based car diagnosis
+
+
+import random
+
+
+#   words    → clues the user might type
+#   problem  → what is probably wrong
+#   tips     → what to do about it
+#   danger   → how serious is it
+
+
+info= [
+
+    {"words"   : ["wont start", "won't start", "not starting", "click click",
+                     "clicking", "dead", "no start", "doesnt start", "key wont turn"],
+        "problem" : "Car not starting",
+        "tips"    : [
+            "Check if your battery is dead — try jump starting it",
+            "Make sure you have fuel in the tank",
+            "If you hear a clicking sound, the battery or starter is likely dead",
+            "Try turning the headlights on — if they are dim, battery is weak"
+        ],
+        "danger"  : "medium"},
+
+    {
+        "words"   : ["overheat", "overheating", "too hot", "steam", "smoke",
+                     "temperature high", "temp warning", "coolant", "boiling"],
+        "problem" : "Engine overheating",
+        "tips"    : [
+            "STOP the car right now — overheating destroys the engine fast",
+            "Turn on the heater full blast — it actually helps cool the engine",
+            "Do NOT open the radiator cap — hot steam will burn your hands",
+            "Wait 30 minutes, then check the coolant level",
+            "Call a mechanic before driving again"
+        ],
+        "danger"  : "high"},
+
+    {"words"   : ["battery", "battery dead", "battery light", "battery warning",
+                     "no power", "lights dim", "slow start", "charging problem"],
+        "problem" : "Battery problem",
+        "tips"    : [
+            "Jump start the car and drive for 30 minutes to recharge",
+            "Clean the battery terminals if they look white and crusty",
+            "If the battery is older than 4 years, just replace it",
+            "Check if you accidentally left the lights on all night"
+        ],
+        "danger"  : "medium"
+    },
+
+    {
+        "words"   : ["flat tyre", "flat tire", "puncture", "low tyre", "low tire",
+                     "tyre flat", "tire flat", "thumping sound", "pulling left",
+                     "pulling right", "tyre pressure"],
+        "problem" : "Flat or low tyre",
+        "tips"    : [
+            "Pull over safely and switch on your hazard lights",
+            "Change to the spare tyre if you have one",
+            "A puncture kit can fix a small nail hole temporarily",
+            "Never drive on a completely flat tyre — it ruins the rim"
+        ],
+        "danger"  : "high"
+    },
+
+    {"words"   : ["brake", "brakes", "squeaking", "squealing", "grinding",
+                     "soft brake", "spongy brake", "brake pedal", "cant stop",
+                     "hard to stop", "brake light", "abs light"],
+    "problem" : "Brake problem",
+    "tips"    : [
+            "Squeaking sound = brake pads are wearing out, replace them soon",
+            "Grinding metal sound = pads are gone completely, fix urgently",
+            "Soft/spongy pedal = check brake fluid under the bonnet",
+            "Never ignore brake problems — it is a safety issue"
+        ],
+        "danger"  : "high"
+    },
+
+    {
+        "words"   : ["oil", "oil light", "low oil", "oil warning", "oil leak",
+                     "burning oil", "oil smell", "black smoke", "oil change"],
+        "problem" : "Oil problem",
+        "tips"    : [
+            "Check the oil level using the dipstick under the bonnet",
+            "If oil is black and thick, it needs to be changed",
+            "If you see oil spots on the ground, there is a leak",
+            "Do not drive with the oil warning light on — engine will seize"
+        ],
+        "danger"  : "high"},
+
+    {   "words"   : ["check engine", "engine light", "engine warning",
+                     "yellow light", "warning light", "engine icon"],
+        "problem" : "Check engine light is on",
+        "tips"    : [
+            "First check if your fuel cap is loose — tighten it and see",
+            "A steady light = not urgent, but get it checked this week",
+            "A flashing light = pull over immediately, something is misfiring",
+            "Any mechanic can plug in a scanner and read the exact fault code"
+        ],
+        "danger"  : "medium"
+    },
+
+    {
+        "words"   : ["gear", "gears", "not shifting", "cant shift", "gear slip",
+                     "transmission", "clutch", "grinding gear", "stuck in gear"],
+        "problem" : "Gear or transmission problem",
+        "tips"    : [
+            "Check transmission fluid level if you can",
+            "Slipping gears = get the transmission inspected soon",
+            "Grinding when changing gears in a manual = clutch is worn",
+            "Avoid forcing gears — it makes the damage worse"
+        ],
+        "danger"  : "medium"
+    },
+
+    {   "words"   : ["ac", "air conditioning", "no cold air", "ac not working",
+                     "warm air", "ac smell", "musty smell", "blower not working"],
+        "problem" : "Air conditioning problem",
+        "tips"    : [
+            "Check the cabin air filter — it is under the dashboard and often gets clogged",
+            "If no cold air, the gas (refrigerant) may need to be refilled",
+            "Musty smell = mold inside the AC — spray AC cleaner into the vents",
+            "AC problems are not dangerous but get it fixed before summer"
+        ],
+        "danger"  : "low"},
+
+    {
+        "words"   : ["steering", "hard to steer", "heavy steering", "car pulling",
+                     "shaking wheel", "steering wheel shake", "power steering",
+                     "steering noise", "knocking when turning"],
+        "problem" : "Steering problem",
+        "tips"    : [
+            "Check the power steering fluid level under the bonnet",
+            "Shaky wheel at high speed = tyres need balancing (cheap fix)",
+            "Car pulling to one side = wheel alignment is off",
+            "Knocking sound when turning = ball joints are worn out"
+        ],
+        "danger"  : "medium"
+    },
+
+    {
+        "words"   : ["fuel", "petrol", "diesel", "bad mileage", "too much fuel",
+                     "poor mileage", "fuel smell", "low mileage", "mpg", "kmpl"],
+        "problem" : "Fuel / mileage problem",
+        "tips"    : [
+            "Change the air filter — a dirty one wastes a lot of fuel",
+            "Check your tyre pressure — low tyres reduce mileage badly",
+            "Avoid sudden acceleration and heavy braking",
+            "Get the spark plugs checked — worn plugs kill mileage"
+        ],
+        "danger"  : "low"}
+
+]
+
+
+
+# danger labels
+
+
+danger_label = {
+    "low"    : "🟢 Not urgent  — keep checking,can contiue driving",
+    "medium" : "🟡 Fix soon    — dont ignore,may continue driving",
+    "high"   : "🔴 Fix NOW     — urgent need to fix,dont drive"
+}
+
+
+
+# the matching logic
+
+
+def issue(inp):
+
+    # clean up the text first
+    user_text = inp.lower()
+
+    best_match    = None
+    highest_score = 0
+
+    for each_problem in info:
+
+        score = 0
+
+        for clue_word in each_problem["words"]:
+            if clue_word in user_text:
+                score = score + 1
+
+        # keep track of whichever problem scored highest
+        if score > highest_score:
+            highest_score = score
+            best_match    = each_problem
+
+    # only return a match if at least one word matched
+    if highest_score > 0:
+        return best_match
+    else:
+        return None
+
+
+
+# print the answer nicely
+
+
+def show_answer(matched_problem):
+    print()
+    print("─" * 45)
+    print("DIAGNOSIS :", matched_problem["problem"])
+    print("URGENCY   :", danger_label[ matched_problem["danger"] ])
+    print("─" * 45)
+    print("WHAT TO DO:")
+    for tip in matched_problem["tips"]:
+        print("  •", tip)
+    print("─" * 45)
+    print()
+
+
+
+# simple responses for hello / thanks / bye
+
+
+hello_words = ["hello", "hi", "hey", "namaste", "good morning", "good evening"]
+thanks_words = ["thanks", "thank you", "thx", "helpful"]
+bye_words   = ["bye", "exit", "quit", "goodbye", "done", "stop"]
+
+
+
+# main chat loop — this is where everything runs
+
+
+def start():
+
+    print()
+    print("=" * 45)
+    print("   🔧  CAR DOCTOR — Diagnosis Chatbot")
+    print("=" * 45)
+    print("  Tell me your car problem in plain words.")
+    print("  Example: 'my brakes are squeaking'")
+    print("  Type  bye  to exit.")
+    print("=" * 45)
+    print()
+
+    while True:
+
+        user_input = input("You: ").strip()
+
+        # skip if user typed nothing
+        if user_input == "":
+            continue
+
+        clean_input = user_input.lower()
+
+        # check for bye
+        for word in bye_words:
+            if word in clean_input:
+                print("\nBot: Take care! Hope your car gets fixed soon. 👋\n")
+                return
+
+        # check for hello
+        for word in hello_words:
+            if word in clean_input:
+                print("\nBot: Hey! Tell me what is wrong with your car. 🚗\n")
+                break
+        else:
+
+            # check for thanks
+            said_thanks = False
+            for word in thanks_words:
+                if word in clean_input:
+                    print("\nBot: Happy to help! Drive safe. 😊\n")
+                    said_thanks = True
+                    break
+
+            if not said_thanks:
+
+                # actually try to diagnose the problem
+                result = issue(user_input)
+
+                if result:
+                    show_answer(result)
+                else:
+                    print()
+                    print("Bot: Hmm, I did not understand that.")
+                    print("     Try saying something like:")
+                    print("     → 'my car wont start'")
+                    print("     → 'brakes are making noise'")
+                    print("     → 'engine is overheating'")
+                    print()
+
+
+#run CarDoc
+start()
