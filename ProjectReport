@@ -1,0 +1,42 @@
+## Project Report: CarDoc – AI-Based Car Diagnosis Chatbot
+
+---
+
+### **1. Project Overview**
+**CarDoc** is a Python-based diagnostic tool designed to bridge the gap between complex mechanical issues and everyday drivers. Using a natural language processing (NLP) approach based on keyword matching, the chatbot identifies common vehicle problems from user descriptions and provides immediate safety advice and troubleshooting steps.
+
+### **2. Problem Statement**
+Many drivers feel overwhelmed when a warning light appears or an unusual sound occurs. Misinterpreting these signals can lead to:
+* **Safety Hazards:** Continuing to drive when a critical system (like brakes or cooling) has failed.
+* **Costly Repairs:** Ignoring minor issues that escalate into engine seizures or transmission failures.
+* **Lack of Knowledge:** Not knowing simple DIY fixes, like checking a fuel cap or air filter.
+
+### **3. Core Features**
+* **Natural Language Interaction:** Users can describe symptoms in plain English (e.g., "my car is making a clicking sound").
+* **Intelligent Matching:** The system utilizes a scoring algorithm to find the best match across various categories including engine, battery, tires, and brakes.
+* **Urgency Labeling:** Each diagnosis is assigned a color-coded danger level (Low, Medium, High) to guide the user's immediate response.
+* **Actionable Advice:** Provides specific "What to do" tips for every identified problem.
+
+### **4. Technical Implementation**
+The project is built entirely in **Python** and follows a modular structure:
+
+* **Data Structure:** The knowledge base is stored in a list of dictionaries (`info`), containing trigger words, problem descriptions, and safety tips.
+* **Matching Logic (`issue` function):** Converts user input to lowercase and iterates through the knowledge base to calculate a "match score" based on keyword frequency.
+* **UI/UX:** A clean command-line interface (CLI) that handles greetings, gratitude, and exit commands for a human-like conversational flow.
+
+### **5. Diagnostic Categories**
+The system currently supports 11 major diagnostic categories:
+| Category | Severity | Example Symptoms |
+| :--- | :--- | :--- |
+| **Engine Overheating** | 🔴 High | Steam, smoke, high temperature |
+| **Brake Problems** | 🔴 High | Squeaking, grinding, spongy pedal |
+| **Battery/Starting** | 🟡 Medium | Click-click sound, dim lights, dead battery |
+| **Steering/Alignment** | 🟡 Medium | Shaking wheel, pulling to one side |
+| **Fuel/Efficiency** | 🟢 Low | Poor mileage, fuel smell |
+
+### **6. Future Scope**
+* **Integration with OBD-II:** Connecting the script to real-time car data scanners.
+* **GUI Development:** Transitioning from a CLI to a mobile or web-based application.
+* **Expanded Knowledge Base:** Adding more specific makes and models for specialized troubleshooting.
+
+---
