@@ -3,40 +3,57 @@
 ---
 
 ### **1. Project Overview**
-**CarDoc** is a Python-based diagnostic tool designed to bridge the gap between complex mechanical issues and everyday drivers. Using a natural language processing (NLP) approach based on keyword matching, the chatbot identifies common vehicle problems from user descriptions and provides immediate safety advice and troubleshooting steps.
-
-### **2. Problem Statement**
-Many drivers feel overwhelmed when a warning light appears or an unusual sound occurs. Misinterpreting these signals can lead to:
-* **Safety Hazards:** Continuing to drive when a critical system (like brakes or cooling) has failed.
-* **Costly Repairs:** Ignoring minor issues that escalate into engine seizures or transmission failures.
-* **Lack of Knowledge:** Not knowing simple DIY fixes, like checking a fuel cap or air filter.
-
-### **3. Core Features**
-* **Natural Language Interaction:** Users can describe symptoms in plain English (e.g., "my car is making a clicking sound").
-* **Intelligent Matching:** The system utilizes a scoring algorithm to find the best match across various categories including engine, battery, tires, and brakes.
-* **Urgency Labeling:** Each diagnosis is assigned a color-coded danger level (Low, Medium, High) to guide the user's immediate response.
-* **Actionable Advice:** Provides specific "What to do" tips for every identified problem.
-
-### **4. Technical Implementation**
-The project is built entirely in **Python** and follows a modular structure:
-
-* **Data Structure:** The knowledge base is stored in a list of dictionaries (`info`), containing trigger words, problem descriptions, and safety tips.
-* **Matching Logic (`issue` function):** Converts user input to lowercase and iterates through the knowledge base to calculate a "match score" based on keyword frequency.
-* **UI/UX:** A clean command-line interface (CLI) that handles greetings, gratitude, and exit commands for a human-like conversational flow.
-
-### **5. Diagnostic Categories**
-The system currently supports 11 major diagnostic categories:
-| Category | Severity | Example Symptoms |
-| :--- | :--- | :--- |
-| **Engine Overheating** | 🔴 High | Steam, smoke, high temperature |
-| **Brake Problems** | 🔴 High | Squeaking, grinding, spongy pedal |
-| **Battery/Starting** | 🟡 Medium | Click-click sound, dim lights, dead battery |
-| **Steering/Alignment** | 🟡 Medium | Shaking wheel, pulling to one side |
-| **Fuel/Efficiency** | 🟢 Low | Poor mileage, fuel smell |
-
-### **6. Future Scope**
-* **Integration with OBD-II:** Connecting the script to real-time car data scanners.
-* **GUI Development:** Transitioning from a CLI to a mobile or web-based application.
-* **Expanded Knowledge Base:** Adding more specific makes and models for specialized troubleshooting.
+**CarDoc** is a Python-based diagnostic tool designed to act as a bridge between complex mechanical symptoms and everyday drivers. Developed by a cybersecurity expert with a background in Python programming and engineering, this chatbot interprets user descriptions of car trouble to provide immediate safety advice. By using a keyword-based logic system, it identifies common vehicle failures and categorizes them by urgency to improve road safety and prevent costly secondary damage.
 
 ---
+
+### **2. Problem Statement**
+Vehicle owners often face anxiety when a warning light appears or a strange noise occurs. Misinterpreting these signals can lead to:
+* **Safety Hazards:** Drivers may continue operating a vehicle with failing brakes or an overheating engine.
+* **Financial Loss:** Minor issues, such as low oil, can escalate into total engine failure if not addressed immediately.
+* **Information Gap:** Drivers often lack the technical vocabulary to describe problems to mechanics, leading to miscommunication.
+
+---
+
+### **3. Technical Approach**
+The development of CarDoc focused on creating a lightweight, efficient, and user-friendly command-line interface (CLI).
+
+* **Data Normalization:** The system utilizes a cleaning process where user input is converted to lowercase and stripped of excess whitespace, ensuring consistent matching regardless of user formatting.
+* **Keyword Scoring Algorithm:** Instead of rigid string matching, the `issue()` function calculates a "confidence score". It iterates through a library of clue words and prioritizes the diagnosis with the highest number of matches found in the user’s sentence.
+* **Modular Architecture:** The knowledge base is stored in a structured list of dictionaries (`info`), making it simple to add new symptoms or tips without altering the core logic.
+
+---
+
+### **4. Key Findings**
+* **Description over Definition:** Testing revealed that users describe problems through sensory experience (e.g., "click click," "smoke," "shaky wheel") rather than technical parts (e.g., "starter motor," "head gasket"), which guided the expansion of the "clue words" library.
+* **Visual Urgency Cues:** Incorporating color-coded emojis (🔴, 🟡, 🟢) proved more effective at conveying the seriousness of a situation than text alone.
+* **Empowerment through DIY:** The bot successfully balances professional advice with simple DIY checks, such as tightening a loose fuel cap to clear a "Check Engine" light.
+
+---
+
+### **5. Issues & Challenges Faced**
+* **Symptom Overlap:** Certain keywords, such as "smoke," can apply to multiple systems. This required refining the scoring logic to ensure the most dangerous potential issue (e.g., overheating) is prioritized.
+* **Negation Logic:** A current limitation is the system's inability to process negations (e.g., "my car is **not** starting" vs. "my battery is **not** dead"). The keyword matching may still trigger a result if a clue word is present regardless of the context.
+* **Scope Management:** To maintain a high level of accuracy within a CLI environment, the scope was intentionally limited to the 11 most frequent roadside issues rather than attempting to cover every niche mechanical failure.
+
+---
+
+### **6. Diagnostic Scope & Severity**
+| Category | Severity | Example Keywords |
+| :--- | :--- | :--- |
+| **Engine Overheating** | 🔴 High (Fix NOW) | steam, smoke, boiling, temp warning |
+| **Brake Failure** | 🔴 High (Fix NOW) | grinding, spongy, squealing, cant stop |
+| **Battery/Starting** | 🟡 Medium (Fix Soon) | click click, dead, no power, wont start |
+| **Steering/Handling** | 🟡 Medium (Fix Soon) | shaking wheel, pulling, heavy steering |
+| **Fuel & Efficiency** | 🟢 Low (Not Urgent) | bad mileage, fuel smell, mpg |
+
+---
+
+### **7. Conclusion & Future Scope**
+CarDoc demonstrates how simple Python logic can be applied to solve real-world safety problems. Future iterations of this project could include:
+* **OBD-II Integration:** Connecting the software directly to a car's computer for real-time data analysis.
+* **Web-Based GUI:** Moving beyond the terminal to a mobile-friendly interface.
+* **Multi-language Support:** Expanding clue words to support different languages and regional slang for car parts.
+
+---
+
